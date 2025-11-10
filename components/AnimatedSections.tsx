@@ -39,19 +39,28 @@ export function WhyChooseSection() {
   ];
 
   return (
-    <section className="py-20 bg-[#0a0a0a] relative overflow-hidden">
-      {/* Green Dot Pattern Background */}
-      <div className="absolute inset-0 opacity-20" style={{
-        backgroundImage: 'radial-gradient(circle, #10b981 1px, transparent 1px)',
+    <section className="py-20 bg-gradient-to-br from-white to-blue-50 relative overflow-hidden">
+      {/* Blue Dot Pattern Background */}
+      <div className="absolute inset-0 opacity-10" style={{
+        backgroundImage: 'radial-gradient(circle, #3b82f6 1px, transparent 1px)',
         backgroundSize: '30px 30px'
       }}></div>
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16 animate-fade-in-up">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Why Partner With <span className="text-purple-600">SEOGBTools</span>?
+          <div className="inline-block mb-4">
+            <span className="text-sm font-semibold text-blue-600 uppercase tracking-wider bg-blue-100 px-4 py-2 rounded-full">
+              Why Choose Us
+            </span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            <span className="text-slate-900">Why Partner With </span>
+            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              SEOGBTools
+            </span>
+            <span className="text-slate-900">?</span>
           </h2>
-          <p className="text-xl text-slate-400 max-w-3xl mx-auto">
+          <p className="text-xl text-slate-700 max-w-3xl mx-auto">
             Experience the perfect blend of affordability, reliability, and professional-grade tools backed by exceptional service
           </p>
         </div>
@@ -60,14 +69,14 @@ export function WhyChooseSection() {
           {features.map((feature, idx) => (
             <div
               key={idx}
-              className="bg-[#1a1a1a] border-2 border-slate-700 rounded-xl p-6 hover:border-purple-600 hover:shadow-xl hover:shadow-purple-500/20 transition-all duration-500 hover:transform hover:scale-105 group animate-scale-in"
+              className="bg-white border-2 border-blue-400 hover:border-purple-500 rounded-xl p-6 hover:shadow-xl hover:shadow-purple-500/30 transition-all duration-500 hover:transform hover:scale-105 group animate-scale-in"
               style={{ animationDelay: `${idx * 0.1}s` }}
             >
-              <div className="text-purple-600 mb-4 group-hover:scale-110 transition-transform duration-300">
+              <div className="text-blue-600 group-hover:text-purple-600 mb-4 group-hover:scale-110 transition-all duration-300">
                 <feature.icon size={48} />
               </div>
-              <h3 className="text-xl font-semibold text-white mb-2">{feature.title}</h3>
-              <p className="text-slate-400">{feature.description}</p>
+              <h3 className="text-xl font-semibold text-slate-900 mb-2">{feature.title}</h3>
+              <p className="text-slate-700">{feature.description}</p>
             </div>
           ))}
         </div>
@@ -218,9 +227,9 @@ export function TestimonialsSection() {
   };
 
   return (
-    <section className="py-20 relative overflow-hidden bg-[#1a1a1a]">
+    <section className="py-20 relative overflow-hidden bg-purple-50">
       {/* Customer Avatar Pattern Background - Real Photos */}
-      <div className="absolute inset-0 opacity-20">
+      <div className="absolute inset-0 opacity-15">
         <div className="grid grid-cols-10 md:grid-cols-15 lg:grid-cols-20 gap-8 p-8">
           {[...Array(100)].map((_, i) => (
             <div 
@@ -234,23 +243,31 @@ export function TestimonialsSection() {
               <img
                 src={`https://i.pravatar.cc/100?img=${(i % 70) + 1}`}
                 alt=""
-                className="w-12 h-12 rounded-full border-2 border-purple-500/40 shadow-xl object-cover hover:scale-110 transition-transform duration-300"
+                className="w-12 h-12 rounded-full border-2 border-blue-300/50 shadow-lg object-cover hover:scale-110 transition-transform duration-300"
               />
             </div>
           ))}
         </div>
       </div>
       
-      {/* Dark Gradient Overlay for readability */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#1a1a1a]/80 via-transparent to-[#1a1a1a]/80"></div>
+      {/* Light Gradient Overlay for readability */}
+      <div className="absolute inset-0 bg-gradient-to-b from-purple-50/90 via-transparent to-purple-50/90"></div>
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            What Our Members Are Saying
+        <div className="text-center mb-16 animate-fade-in-up">
+          <div className="inline-block mb-4">
+            <span className="text-sm font-semibold text-purple-600 uppercase tracking-wider bg-purple-100 px-4 py-2 rounded-full">
+              Testimonials
+            </span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            <span className="text-slate-900">What Our </span>
+            <span className="bg-gradient-to-r from-purple-600 via-blue-600 to-purple-600 bg-clip-text text-transparent">
+              Members Are Saying
+            </span>
           </h2>
-          <p className="text-lg text-slate-400 max-w-2xl mx-auto">
+          <p className="text-lg text-slate-700 max-w-2xl mx-auto">
             Real feedback from professionals who transformed their workflow with our platform
           </p>
         </div>
@@ -260,7 +277,7 @@ export function TestimonialsSection() {
           {testimonials.map((testimonial, idx) => (
             <div
               key={idx}
-              className="bg-white rounded-xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105"
+              className="bg-white rounded-xl p-6 shadow-lg hover:shadow-2xl hover:shadow-purple-500/30 transition-all duration-300 hover:scale-105 border-2 border-purple-400 hover:border-blue-500"
             >
               {/* Social Icon */}
               <div className="mb-4">
@@ -287,14 +304,14 @@ export function TestimonialsSection() {
 
         {/* CTA Section */}
         <div className="text-center">
-          <h3 className="text-4xl md:text-5xl font-bold text-white mb-8">
+          <h3 className="text-4xl md:text-5xl font-bold text-slate-900 mb-8">
             Ready to Transform Your Workflow?
           </h3>
           <a
             href="https://members.seotoolsgroupbuy.us/signup"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block bg-black hover:bg-slate-900 text-white px-12 py-4 rounded-lg font-semibold text-lg transition-all duration-300 shadow-xl hover:shadow-2xl"
+            className="inline-block bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-12 py-4 rounded-lg font-semibold text-lg transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-blue-500/50"
           >
             Join Today
           </a>
@@ -302,7 +319,7 @@ export function TestimonialsSection() {
 
         {/* Extra Testimonial at Bottom */}
         <div className="mt-12 max-w-2xl mx-auto">
-          <div className="bg-white rounded-xl p-6 shadow-lg">
+          <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-blue-400">
             <div className="flex items-start space-x-3">
               <div className="w-5 h-5 bg-black rounded flex items-center justify-center text-white text-xs font-bold flex-shrink-0 mt-1">
                 𝕏
@@ -353,19 +370,27 @@ export function HowToOrderSection() {
   ];
 
   return (
-    <section className="py-20 bg-[#0a0a0a] relative overflow-hidden">
-      {/* Green Dot Pattern Background */}
-      <div className="absolute inset-0 opacity-20" style={{
-        backgroundImage: 'radial-gradient(circle, #10b981 1px, transparent 1px)',
+    <section className="py-20 bg-gradient-to-br from-white to-purple-50 relative overflow-hidden">
+      {/* Blue Dot Pattern Background */}
+      <div className="absolute inset-0 opacity-8" style={{
+        backgroundImage: 'radial-gradient(circle, #3b82f6 1px, transparent 1px)',
         backgroundSize: '30px 30px'
       }}></div>
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16 animate-fade-in-up">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Your <span className="text-purple-600">Quick Start Guide</span>
+          <div className="inline-block mb-4">
+            <span className="text-sm font-semibold text-blue-600 uppercase tracking-wider bg-blue-100 px-4 py-2 rounded-full">
+              Getting Started
+            </span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            <span className="text-slate-900">Your </span>
+            <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-clip-text text-transparent">
+              Quick Start Guide
+            </span>
           </h2>
-          <p className="text-xl text-slate-400 max-w-3xl mx-auto">
+          <p className="text-xl text-slate-700 max-w-3xl mx-auto">
             Launch your digital marketing toolkit in just four simple steps - complete setup in under 5 minutes
           </p>
         </div>
@@ -375,12 +400,12 @@ export function HowToOrderSection() {
             <div key={idx} className="relative">
               {/* Connector Line */}
               {idx < steps.length - 1 && (
-                <div className="hidden lg:block absolute top-16 left-full w-full h-0.5 bg-gradient-to-r from-purple-600 to-transparent transform translate-x-1/2 -translate-y-1/2"></div>
+                <div className="hidden lg:block absolute top-16 left-full w-full h-0.5 bg-gradient-to-r from-blue-400 to-transparent transform translate-x-1/2 -translate-y-1/2"></div>
               )}
 
-              <div className="bg-[#1a1a1a] rounded-xl p-6 border-2 border-slate-700 hover:border-purple-600 hover:shadow-xl hover:shadow-purple-500/20 transition-all duration-500 text-center relative z-10 animate-scale-in" style={{ animationDelay: `${idx * 0.15}s` }}>
+              <div className="bg-white rounded-xl p-6 border-2 border-purple-400 hover:border-blue-500 hover:shadow-xl hover:shadow-blue-500/30 transition-all duration-500 text-center relative z-10 animate-scale-in" style={{ animationDelay: `${idx * 0.15}s` }}>
                 {/* Number Badge */}
-                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg border-4 border-[#0a0a0a] shadow-lg">
+                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg border-4 border-white shadow-lg">
                   {step.number}
                 </div>
 
@@ -388,10 +413,10 @@ export function HowToOrderSection() {
                 <div className="text-6xl mb-4 mt-4">{step.icon}</div>
 
                 {/* Title */}
-                <h3 className="text-xl font-semibold text-white mb-2">{step.title}</h3>
+                <h3 className="text-xl font-semibold text-slate-900 mb-2">{step.title}</h3>
 
                 {/* Description */}
-                <p className="text-slate-400">{step.description}</p>
+                <p className="text-slate-700">{step.description}</p>
               </div>
             </div>
           ))}
@@ -402,7 +427,7 @@ export function HowToOrderSection() {
             href="https://members.seotoolsgroupbuy.us/signup"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
+            className="inline-block bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
           >
             Begin Your Journey
           </a>

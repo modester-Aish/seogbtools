@@ -44,10 +44,10 @@ export default function Header({ pages = [] }: HeaderProps) {
   return (
     <header className="fixed top-0 left-0 right-0 z-50">
       <div className="container mx-auto px-6 py-2">
-        <div className="bg-[#0a0a0a] rounded-full px-6 border border-slate-800/50 relative overflow-hidden">
-          {/* Green Dot Pattern Background */}
-          <div className="absolute inset-0 opacity-15 rounded-full" style={{
-            backgroundImage: 'radial-gradient(circle, #10b981 1px, transparent 1px)',
+        <div className="bg-slate-900/95 backdrop-blur-md rounded-full px-6 border border-blue-500/30 relative overflow-hidden shadow-lg shadow-blue-900/20">
+          {/* Blue Dot Pattern Background */}
+          <div className="absolute inset-0 opacity-10 rounded-full" style={{
+            backgroundImage: 'radial-gradient(circle, #3b82f6 1px, transparent 1px)',
             backgroundSize: '20px 20px'
           }}></div>
           
@@ -56,19 +56,19 @@ export default function Header({ pages = [] }: HeaderProps) {
           <nav className="hidden lg:flex items-center space-x-8 absolute left-0">
             <Link 
               href="/" 
-              className="text-white/80 hover:text-white font-medium text-sm transition-colors"
+              className="text-slate-200 hover:text-blue-400 font-medium text-sm transition-colors"
             >
               Home
             </Link>
             <Link 
               href="/blog" 
-              className="text-white/80 hover:text-white font-medium text-sm transition-colors"
+              className="text-slate-200 hover:text-blue-400 font-medium text-sm transition-colors"
             >
               Blog
             </Link>
             <Link 
               href="/products" 
-              className="text-white/80 hover:text-white font-medium text-sm transition-colors"
+              className="text-slate-200 hover:text-blue-400 font-medium text-sm transition-colors"
             >
               Products
             </Link>
@@ -79,20 +79,20 @@ export default function Header({ pages = [] }: HeaderProps) {
               onMouseEnter={() => handleMouseEnter('pages')}
               onMouseLeave={handleMouseLeave}
             >
-              <button className="flex items-center space-x-1 text-white/80 hover:text-white font-medium text-sm transition-colors">
+              <button className="flex items-center space-x-1 text-slate-200 hover:text-blue-400 font-medium text-sm transition-colors">
                 <span>Pages</span>
                 <ChevronDown size={14} />
               </button>
 
               {/* Pages Dropdown - Dark Theme */}
               {activeDropdown === 'pages' && pages.length > 0 && (
-                <div className="absolute top-full left-0 mt-2 w-[280px] bg-[#2a2624] rounded-lg shadow-2xl py-3 px-2 max-h-[400px] overflow-y-auto">
+                <div className="absolute top-full left-0 mt-2 w-[280px] bg-slate-800/98 backdrop-blur-md rounded-lg shadow-2xl border border-blue-500/30 py-3 px-2 max-h-[400px] overflow-y-auto">
                   <div className="space-y-1">
                     {pages.map(page => (
                       <Link
                         key={page.id}
                         href={`/${page.slug}`}
-                        className="block px-4 py-2 text-white/80 hover:bg-white/10 hover:text-white transition-colors rounded-md text-sm"
+                        className="block px-4 py-2 text-slate-200 hover:bg-blue-600/50 hover:text-white transition-colors rounded-md text-sm"
                       >
                         {page.title}
                       </Link>
@@ -104,7 +104,7 @@ export default function Header({ pages = [] }: HeaderProps) {
           </nav>
 
           {/* Centered Logo */}
-          <Link href="/" className="text-2xl font-bold text-white hover:text-white/90 transition-colors lowercase">
+          <Link href="/" className="text-2xl font-bold text-white hover:text-blue-400 transition-colors lowercase">
             seogbtools
           </Link>
 
@@ -115,7 +115,7 @@ export default function Header({ pages = [] }: HeaderProps) {
               href="https://wa.me/1234567890" 
               target="_blank"
               rel="noopener noreferrer"
-              className="w-9 h-9 rounded-full bg-green-500 hover:bg-green-600 flex items-center justify-center transition-all duration-300 hover:scale-110"
+              className="w-9 h-9 rounded-full bg-gradient-to-br from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-lg shadow-green-500/30"
               aria-label="WhatsApp"
             >
               <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -128,7 +128,7 @@ export default function Header({ pages = [] }: HeaderProps) {
               href="https://facebook.com/seogbtools" 
               target="_blank"
               rel="noopener noreferrer"
-              className="w-9 h-9 rounded-full bg-blue-500 hover:bg-blue-600 flex items-center justify-center transition-all duration-300 hover:scale-110"
+              className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-lg shadow-blue-500/30"
               aria-label="Facebook"
             >
               <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -148,39 +148,39 @@ export default function Header({ pages = [] }: HeaderProps) {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="lg:hidden py-4 border-t border-white/10">
-            <nav className="flex flex-col space-y-3">
+          <div className="lg:hidden py-4 border-t border-blue-500/30 bg-slate-900/95 backdrop-blur-md rounded-b-2xl mt-2">
+            <nav className="flex flex-col space-y-3 px-4">
               <Link 
                 href="/" 
-                className="text-white/80 hover:text-white transition-colors py-2"
+                className="text-slate-200 hover:text-blue-400 transition-colors py-2"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Home
               </Link>
               <Link 
                 href="/blog" 
-                className="text-white/80 hover:text-white transition-colors py-2"
+                className="text-slate-200 hover:text-blue-400 transition-colors py-2"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Blog
               </Link>
               <Link 
                 href="/products" 
-                className="text-white/80 hover:text-white transition-colors py-2"
+                className="text-slate-200 hover:text-blue-400 transition-colors py-2"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Products
               </Link>
               <Link 
                 href="/pages" 
-                className="text-white/80 hover:text-white transition-colors py-2"
+                className="text-slate-200 hover:text-blue-400 transition-colors py-2"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Pages
               </Link>
               
               {/* Social Media Icons - Mobile */}
-              <div className="flex items-center space-x-4 pt-4 border-t border-white/10">
+              <div className="flex items-center space-x-4 pt-4 border-t border-blue-500/30">
                 {/* WhatsApp */}
                 <a 
                   href="https://wa.me/1234567890" 

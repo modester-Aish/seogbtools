@@ -9,8 +9,8 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: '#14b8a6',
-        secondary: '#8b5cf6',
+        primary: '#3b82f6', // Blue-500
+        secondary: '#8b5cf6', // Purple-500
       },
       animation: {
         'fade-in-up': 'fadeInUp 0.6s ease-out',

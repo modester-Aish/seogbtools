@@ -21,7 +21,7 @@ export default function FAQSection() {
               Entry-level packages begin at <strong>$15 monthly</strong> with comprehensive tool access including industry-standard platforms.
             </p>
             <p className="text-slate-700 leading-relaxed">
-              Select from <strong>Basic, Premium, or Complete</strong> tiers depending on your operational needs. Detailed package information available <Link href="/products" className="text-primary underline hover:text-primary/80">in our catalog</Link>.
+              Select from <strong>Basic, Premium, or Complete</strong> tiers depending on your operational needs. Detailed package information available <Link href="/products" className="text-blue-600 underline hover:text-purple-600">in our catalog</Link>.
             </p>
           </div>
 
@@ -29,7 +29,7 @@ export default function FAQSection() {
             <h3 className="text-lg font-bold text-slate-900 mb-3">Every tier includes:</h3>
             <ul className="space-y-3">
               <li className="text-slate-700">
-                <strong className="text-slate-900">60+ Professional Platforms:</strong> Immediate access to leading marketing, analytics, and content creation software. <Link href="/products" className="text-primary underline hover:text-primary/80">Explore catalog</Link>
+                <strong className="text-slate-900">60+ Professional Platforms:</strong> Immediate access to leading marketing, analytics, and content creation software. <Link href="/products" className="text-blue-600 underline hover:text-purple-600">Explore catalog</Link>
               </li>
               <li className="text-slate-700">
                 <strong className="text-slate-900">Round-the-Clock Support:</strong> Reach our assistance team any time through live chat, messaging apps, or email channels.
@@ -181,9 +181,17 @@ export default function FAQSection() {
     <section className="py-0">
       <div className="grid grid-cols-1 lg:grid-cols-5 min-h-[600px]">
         {/* Left Column - Questions (Dark) */}
-        <div className="lg:col-span-2 bg-[#1a1a1a] p-8 lg:p-12">
+        <div className="lg:col-span-2 bg-slate-900 p-8 lg:p-12">
+          <div className="inline-block mb-6">
+            <span className="text-xs font-semibold text-blue-400 uppercase tracking-wider bg-blue-900/30 px-3 py-1.5 rounded-full border border-blue-400/30">
+              FAQ
+            </span>
+          </div>
           <h2 className="text-3xl lg:text-4xl font-bold text-white mb-8 lg:mb-12">
-            Common Questions,<br />Clear Answers
+            Common Questions,<br />
+            <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+              Clear Answers
+            </span>
           </h2>
           
           <div className="space-y-0">
@@ -191,8 +199,8 @@ export default function FAQSection() {
               <div key={index}>
                 <button
                   onClick={() => setSelectedIndex(index)}
-                  className={`w-full text-left py-5 text-white hover:text-primary transition-colors ${
-                    selectedIndex === index ? 'text-primary' : ''
+                  className={`w-full text-left py-5 text-white hover:text-blue-400 transition-colors ${
+                    selectedIndex === index ? 'text-blue-400' : ''
                   }`}
                 >
                   <span className="text-base lg:text-lg">{faq.question}</span>
@@ -205,8 +213,8 @@ export default function FAQSection() {
           </div>
         </div>
 
-        {/* Right Column - Answer (Light Blue) */}
-        <div className="lg:col-span-3 bg-[#e0f7fa] p-8 lg:p-12">
+        {/* Right Column - Answer (Light) */}
+        <div className="lg:col-span-3 bg-blue-50 p-8 lg:p-12 border-l-4 border-blue-400">
           <div className="max-w-3xl">
             <h3 className="text-2xl lg:text-3xl font-bold text-slate-900 mb-6">
               {faqs[selectedIndex].question}

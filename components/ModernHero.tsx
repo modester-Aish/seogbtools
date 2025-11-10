@@ -71,24 +71,26 @@ export default function ModernHero() {
   }, []);
 
   return (
-    <section className="relative min-h-screen bg-gradient-to-br from-[#1a1a2e] via-[#16213e] to-[#0f1419] overflow-hidden">
+    <section className="relative min-h-screen bg-gradient-to-br from-indigo-100 via-blue-100 to-purple-100 overflow-hidden">
       {/* Animated Background Shapes */}
       <div className="absolute inset-0 overflow-hidden">
-        {/* Gradient Orbs with Purple & Green */}
-        <div className="absolute top-20 -left-20 w-[500px] h-[500px] bg-purple-500/15 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 -right-20 w-[600px] h-[600px] bg-green-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-purple-600/8 rounded-full blur-3xl"></div>
+        {/* Gradient Orbs with Vibrant Colors */}
+        <div className="absolute top-20 -left-20 w-[500px] h-[500px] bg-blue-300/50 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 -right-20 w-[600px] h-[600px] bg-purple-300/40 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-indigo-300/30 rounded-full blur-3xl"></div>
         
-        {/* Green Dot Pattern - Lighter & More Spaced */}
+        {/* Grid Pattern */}
         <div className="absolute inset-0 opacity-10" style={{
-          backgroundImage: 'radial-gradient(circle, #10b981 2px, transparent 2px)',
-          backgroundSize: '60px 60px'
+          backgroundImage: `
+            linear-gradient(to right, #3b82f6 1px, transparent 1px),
+            linear-gradient(to bottom, #8b5cf6 1px, transparent 1px)
+          `,
+          backgroundSize: '50px 50px'
         }}></div>
         
-        {/* Diagonal Lines Pattern */}
-        <div className="absolute inset-0" style={{
-          backgroundImage: 'linear-gradient(45deg, transparent 48%, rgba(139, 92, 246, 0.03) 49%, rgba(139, 92, 246, 0.03) 51%, transparent 52%)',
-          backgroundSize: '40px 40px'
+        {/* Diagonal Stripes */}
+        <div className="absolute inset-0 opacity-5" style={{
+          backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 35px, #3b82f6 35px, #3b82f6 36px)',
         }}></div>
       </div>
 
@@ -96,39 +98,56 @@ export default function ModernHero() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-screen px-8">
           {/* Left Content */}
           <div className="text-left space-y-8 animate-fade-in-up">
-            {/* Badge */}
-            <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm rounded-full px-5 py-2 border border-white/20">
-              <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-              <span className="text-white/90 text-sm font-medium">Join 50K+ Digital Marketers</span>
+            {/* Simple Badge */}
+            <div className="inline-flex items-center space-x-2 bg-white/90 backdrop-blur-sm rounded-full px-5 py-2 border border-blue-300 shadow-sm">
+              <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
+              <span className="text-slate-700 text-sm font-medium">Join 50K+ Digital Marketers</span>
             </div>
 
             {/* Heading */}
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight">
-              Unlock Professional
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-black leading-[1.1]">
+              <span className="text-slate-900">Get Premium</span>
               <br />
-              <span className="bg-gradient-to-r from-purple-200 via-pink-200 to-purple-200 bg-clip-text text-transparent">
-                Marketing Tools
+              <span className="relative inline-block">
+                <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-clip-text text-transparent">
+                  Marketing Tools
+                </span>
+                <svg className="absolute -bottom-3 left-0 w-full h-3" viewBox="0 0 300 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2 10C50 2, 100 2, 150 6C200 10, 250 6, 298 10" stroke="url(#gradient)" strokeWidth="3" strokeLinecap="round"/>
+                  <defs>
+                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#3b82f6"/>
+                      <stop offset="50%" stopColor="#8b5cf6"/>
+                      <stop offset="100%" stopColor="#3b82f6"/>
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </span>
+              <br />
+              <span className="text-slate-900">at </span>
+              <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+                90% Discount
               </span>
             </h1>
 
             {/* Description */}
-            <p className="text-white/90 text-lg md:text-xl max-w-xl leading-relaxed">
-              Get instant access to <span className="text-purple-200 font-semibold">industry-leading software</span> at a fraction of the cost. Empower your marketing campaigns with enterprise-grade tools while saving <span className="text-green-300 font-semibold">thousands monthly</span>.
+            <p className="text-slate-700 text-lg md:text-xl max-w-xl leading-relaxed">
+              Get instant access to <span className="text-blue-600 font-semibold">industry-leading software</span> at a fraction of the cost. Empower your marketing campaigns with enterprise-grade tools while saving <span className="text-purple-600 font-semibold">thousands monthly</span>.
             </p>
 
             {/* Stats */}
             <div className="flex flex-wrap gap-8 pt-4">
               <div>
-                <div className="text-3xl font-bold text-white">60+</div>
-                <div className="text-white/70 text-sm">Software Tools</div>
+                <div className="text-4xl font-bold text-blue-600">60+</div>
+                <div className="text-slate-600 text-sm">Premium Tools</div>
               </div>
               <div>
-                <div className="text-3xl font-bold text-white">100%</div>
-                <div className="text-white/70 text-sm">Reliability</div>
+                <div className="text-4xl font-bold text-purple-600">100%</div>
+                <div className="text-slate-600 text-sm">Reliability</div>
               </div>
               <div>
-                <div className="text-3xl font-bold text-white">Always</div>
-                <div className="text-white/70 text-sm">Available</div>
+                <div className="text-4xl font-bold text-blue-600">24/7</div>
+                <div className="text-slate-600 text-sm">Support</div>
               </div>
             </div>
 
@@ -138,7 +157,7 @@ export default function ModernHero() {
                 href="https://members.seotoolsgroupbuy.us/signup"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center space-x-2 bg-white hover:bg-purple-50 text-purple-900 px-8 py-4 rounded-xl font-bold text-base transition-all duration-300 shadow-2xl hover:shadow-purple-500/50 hover:scale-105"
+                className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-8 py-4 rounded-xl font-bold text-base transition-all duration-300 shadow-xl hover:shadow-blue-500/50 hover:scale-105"
               >
                 <span>Start Your Journey</span>
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -147,9 +166,9 @@ export default function ModernHero() {
               </a>
               <a
                 href="#pricing"
-                className="inline-flex items-center space-x-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white px-8 py-4 rounded-xl font-semibold text-base transition-all duration-300 border border-white/20 hover:border-white/40"
+                className="inline-flex items-center space-x-2 bg-white/90 backdrop-blur-sm hover:bg-white text-slate-900 px-8 py-4 rounded-xl font-semibold text-base transition-all duration-300 border-2 border-purple-400 hover:border-purple-600"
               >
-                <span>Explore Plans</span>
+                <span>View Pricing</span>
               </a>
             </div>
           </div>
@@ -163,11 +182,11 @@ export default function ModernHero() {
                 return (
                   <div
                     key={`tool-${toolIdx}`}
-                    className={`bg-white/90 backdrop-blur-sm ${tool.shape} p-4 shadow-lg hover:shadow-2xl hover:shadow-purple-500/50 transition-all duration-500 ease-in-out hover:scale-110 hover:-translate-y-2 hover:rotate-3 cursor-pointer border border-purple-200/30 hover:border-purple-400 group relative`}
+                    className={`bg-white ${tool.shape} p-4 shadow-md hover:shadow-2xl hover:shadow-purple-500/40 transition-all duration-500 ease-in-out hover:scale-110 hover:-translate-y-2 hover:rotate-3 cursor-pointer border-2 border-blue-400 hover:border-purple-500 group relative`}
                   >
                     
                     <div className="flex items-center justify-center relative">
-                      <div className={`w-16 h-16 flex items-center justify-center bg-gradient-to-br from-purple-50 to-indigo-50 ${tool.shape} group-hover:scale-125 group-hover:rotate-6 transition-all duration-500 shadow-md group-hover:shadow-lg`}>
+                      <div className={`w-16 h-16 flex items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50 ${tool.shape} group-hover:scale-125 group-hover:rotate-6 transition-all duration-500 shadow-sm group-hover:shadow-md`}>
                         <img
                           src={tool.image}
                           alt={`${tool.name} - Professional marketing and SEO software tool`}
@@ -182,7 +201,7 @@ export default function ModernHero() {
                       {/* Sparkle effect */}
                       <div className="absolute -top-1 -right-1 w-2 h-2 bg-purple-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </div>
-                    <p className="text-center text-purple-900 font-bold text-xs mt-3 group-hover:text-purple-600 transition-colors duration-300">{tool.name}</p>
+                    <p className="text-center text-slate-700 font-bold text-xs mt-3 group-hover:text-purple-600 transition-colors duration-300">{tool.name}</p>
                   </div>
                 );
               })}

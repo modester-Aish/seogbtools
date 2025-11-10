@@ -252,27 +252,35 @@ export default function PopularToolsSection() {
 
   return (
     <section 
-      className="py-20 bg-[#1a1a1a] relative overflow-hidden"
+      className="py-20 bg-gradient-to-br from-blue-50 to-purple-50 relative overflow-hidden"
       aria-label="Premium Marketing Tools Collection"
       itemScope 
       itemType="https://schema.org/ItemList"
     >
-      {/* Dot Pattern Background - Lighter Version */}
-      <div className="absolute inset-0 opacity-15" style={{
-        backgroundImage: 'radial-gradient(circle, #10b981 1.5px, transparent 1.5px)',
+      {/* Dot Pattern Background - Blue Version */}
+      <div className="absolute inset-0 opacity-10" style={{
+        backgroundImage: 'radial-gradient(circle, #3b82f6 1px, transparent 1px)',
         backgroundSize: '40px 40px'
       }}></div>
       
       {/* Subtle Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-green-500/5 to-transparent"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-100/30 to-transparent"></div>
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Explore Our Premium Tool Collection
+        <div className="text-center mb-12 animate-fade-in-up">
+          <div className="inline-block mb-4">
+            <span className="text-sm font-semibold text-blue-600 uppercase tracking-wider bg-blue-100 px-4 py-2 rounded-full">
+              Tools Collection
+            </span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            <span className="text-slate-900">Explore Our </span>
+            <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-clip-text text-transparent">
+              Premium Tool Collection
+            </span>
           </h2>
-          <p className="text-lg text-slate-400 max-w-3xl mx-auto">
+          <p className="text-lg text-slate-700 max-w-3xl mx-auto">
             Access Ahrefs, SEMrush, Moz Pro, ChatGPT Plus, Canva Pro & more at 90% discount. Best group buy SEO tools 2025.
           </p>
         </div>
@@ -282,7 +290,7 @@ export default function PopularToolsSection() {
           {displayedTools.map((tool, index) => (
             <div 
               key={index} 
-              className="bg-white border border-gray-300 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 flex flex-col h-[340px]"
+              className="bg-white border-2 border-blue-400 hover:border-purple-500 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/30 hover:-translate-y-1 flex flex-col h-[340px]"
             >
               {/* Logo Section */}
               <div 
@@ -308,8 +316,8 @@ export default function PopularToolsSection() {
                 </h3>
               </div>
 
-              {/* Green Name Band */}
-              <div className="bg-[#4CAF50] py-2">
+              {/* Blue Name Band */}
+              <div className="bg-gradient-to-r from-blue-500 to-blue-600 py-2">
                 <p className="text-white font-semibold text-sm text-center">
                   {tool.name}
                 </p>
@@ -328,7 +336,7 @@ export default function PopularToolsSection() {
                   href="https://members.seotoolsgroupbuy.us/signup"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block w-full bg-[#4CAF50] hover:bg-green-600 text-white font-bold py-2.5 rounded text-center transition-all duration-300 shadow-md hover:shadow-lg text-sm"
+                  className="block w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold py-2.5 rounded text-center transition-all duration-300 shadow-md hover:shadow-lg text-sm"
                 >
                   Buy Now
                 </a>
@@ -342,7 +350,7 @@ export default function PopularToolsSection() {
           <div className="text-center mt-12">
             <button
               onClick={() => setShowAll(!showAll)}
-              className="px-8 py-4 bg-[#4CAF50] hover:bg-green-600 text-white font-bold rounded-lg transition-all duration-300 hover:scale-105 shadow-lg inline-flex items-center gap-2"
+              className="px-8 py-4 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-bold rounded-lg transition-all duration-300 hover:scale-105 shadow-lg inline-flex items-center gap-2"
             >
               {showAll ? (
                 <>
