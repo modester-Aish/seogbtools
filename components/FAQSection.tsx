@@ -112,7 +112,7 @@ export default function FAQSection() {
             Absolutely! Our business model operates through authorized enterprise licensing agreements with software providers. The shared access approach we use is an established and legitimate industry practice.
           </p>
           <p className="text-slate-700 leading-relaxed">
-            We implement <strong>enterprise-grade security protocols</strong> to protect your information. Every member receives exclusive login credentials, ensuring your work remains private and isolated from other users' activities.
+            We implement <strong>enterprise-grade security protocols</strong> to protect your information. Every member receives exclusive login credentials, ensuring your work remains private and isolated from other users&apos; activities.
           </p>
         </div>
       ),

@@ -58,7 +58,7 @@ export default function FloatingChat() {
 
           {/* Footer */}
           <div className="bg-slate-50 px-4 py-2 border-t border-slate-200">
-            <p className="text-slate-500 text-xs text-center">We're here anytime</p>
+            <p className="text-slate-500 text-xs text-center">We&apos;re here anytime</p>
           </div>
         </div>
       )}
