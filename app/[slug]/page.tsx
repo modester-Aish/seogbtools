@@ -106,7 +106,7 @@ export default async function DynamicPage({ params }: PageProps) {
   const product = await fetchProductBySlug(slug);
   if (product) {
     // Fetch related products (from same category or random)
-    const relatedProducts = []; // You can implement fetchRelatedProducts if needed
+    const relatedProducts: any[] = []; // You can implement fetchRelatedProducts if needed
 
     // Product Schema
     const productSchema = {
