@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         title: product.name,
         description,
         url: getCanonicalUrl(slug),
-        type: 'product',
+        type: 'website',
         images: imageUrl ? [{ url: imageUrl }] : undefined,
       },
     };
