@@ -2,15 +2,29 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Star, ShoppingCart } from 'lucide-react';
 import { WCProduct } from '@/types/wordpress';
+import { getProductLogo, getProductBgColor } from '@/lib/product-images';
 
 interface ProductCardProps {
   product: WCProduct;
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
-  const imageUrl = product.images && product.images.length > 0 
-    ? product.images[0].src 
-    : '/placeholder-product.jpg';
+  // Priority system:
+  // 1. Use WordPress product image if exists and is valid
+  // 2. Fall back to company logo based on name
+  // 3. Final fallback to placeholder
+  const hasRealImage = product.images && 
+                       product.images.length > 0 && 
+                       product.images[0]?.src && 
+                       product.images[0].src.trim() !== '' &&
+                       !product.images[0].src.includes('placeholder') &&
+                       !product.images[0].src.includes('seo-tools.svg') &&
+                       !product.images[0].src.includes('woocommerce-placeholder') &&
+                       (product.images[0].src.startsWith('http') || product.images[0].src.startsWith('/'));
+  
+  const imageUrl = hasRealImage ? product.images[0].src : getProductLogo(product.name);
+  const isCompanyLogo = !hasRealImage;
+  const bgColor = isCompanyLogo ? getProductBgColor(product.name) : 'bg-slate-700';
 
   const regularPrice = parseFloat(product.regular_price) || 0;
   const salePrice = parseFloat(product.sale_price) || 0;
@@ -19,14 +33,37 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     <div className="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:border-primary transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-primary/20 flex flex-col h-full">
       {/* Product Image */}
-      <Link href={`/${product.slug}`} className="relative h-48 bg-slate-700 overflow-hidden group">
-        <Image
-          src={imageUrl}
-          alt={product.name}
-          fill
-          className="object-cover group-hover:scale-110 transition-transform duration-300"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-        />
+      <Link href={`/${product.slug}`} className={`relative h-48 ${bgColor} overflow-hidden group flex items-center justify-center`}>
+        {isCompanyLogo ? (
+          // Company logo - smaller, centered
+          <div className="relative w-32 h-32">
+            <Image
+              src={imageUrl}
+              alt={product.name}
+              fill
+              className="object-contain group-hover:scale-110 transition-transform duration-300 p-4"
+              sizes="128px"
+              unoptimized={imageUrl.endsWith('.svg')}
+              onError={(e) => {
+                console.error('Image load error:', imageUrl);
+                e.currentTarget.src = '/tools/seo-tools.svg';
+              }}
+            />
+          </div>
+        ) : (
+          // Real product image - full cover
+          <Image
+            src={imageUrl}
+            alt={product.name}
+            fill
+            className="object-cover group-hover:scale-110 transition-transform duration-300"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+            onError={(e) => {
+              console.error('Image load error:', imageUrl);
+              e.currentTarget.src = '/tools/seo-tools.svg';
+            }}
+          />
+        )}
         
         {/* Sale Badge */}
         {product.on_sale && (

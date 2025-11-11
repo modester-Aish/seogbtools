@@ -1,5 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  env: {
+    WORDPRESS_BASE_URL: process.env.WORDPRESS_BASE_URL || 'https://app.seogbtools.com',
+    WC_CONSUMER_KEY: process.env.WC_CONSUMER_KEY || 'ck_fad47db227d25ee887362c1cc5d656a34d6671ac',
+    WC_CONSUMER_SECRET: process.env.WC_CONSUMER_SECRET || 'cs_bea750f61d3424613ee985da5172e94e38e38338',
+  },
   images: {
     remotePatterns: [
       {

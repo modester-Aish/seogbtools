@@ -44,9 +44,9 @@ export default function Header({ pages = [] }: HeaderProps) {
   return (
     <header className="fixed top-0 left-0 right-0 z-50">
       <div className="container mx-auto px-6 py-2">
-        <div className="bg-slate-900/95 backdrop-blur-md rounded-full px-6 border border-blue-500/30 relative overflow-hidden shadow-lg shadow-blue-900/20">
+        <div className="bg-slate-900/95 backdrop-blur-md rounded-full px-6 border border-blue-500/30 relative shadow-lg shadow-blue-900/20">
           {/* Blue Dot Pattern Background */}
-          <div className="absolute inset-0 opacity-10 rounded-full" style={{
+          <div className="absolute inset-0 opacity-10 rounded-full pointer-events-none" style={{
             backgroundImage: 'radial-gradient(circle, #3b82f6 1px, transparent 1px)',
             backgroundSize: '20px 20px'
           }}></div>
@@ -73,33 +73,52 @@ export default function Header({ pages = [] }: HeaderProps) {
               Products
             </Link>
             
-            {/* Pages - With Dropdown (Original Functionality) */}
+            {/* Pages - With Dropdown and Direct Link */}
             <div 
-              className="relative"
+              className="relative z-50"
               onMouseEnter={() => handleMouseEnter('pages')}
               onMouseLeave={handleMouseLeave}
             >
-              <button className="flex items-center space-x-1 text-slate-200 hover:text-blue-400 font-medium text-sm transition-colors">
+              <Link 
+                href="/pages"
+                className="flex items-center space-x-1 text-slate-200 hover:text-blue-400 font-medium text-sm transition-colors"
+              >
                 <span>Pages</span>
-                <ChevronDown size={14} />
-              </button>
+                <ChevronDown size={14} className={`transition-transform ${activeDropdown === 'pages' ? 'rotate-180' : ''}`} />
+              </Link>
 
               {/* Pages Dropdown - Dark Theme */}
-              {activeDropdown === 'pages' && pages.length > 0 && (
-                <div className="absolute top-full left-0 mt-2 w-[280px] bg-slate-800/98 backdrop-blur-md rounded-lg shadow-2xl border border-blue-500/30 py-3 px-2 max-h-[400px] overflow-y-auto">
-                  <div className="space-y-1">
-                    {pages.map(page => (
+              {activeDropdown === 'pages' && pages.length > 0 ? (
+                <div className="absolute top-full left-0 mt-4 w-[280px] bg-slate-900 rounded-xl shadow-2xl border-2 border-blue-500 py-2 max-h-[400px] overflow-y-auto z-[100]">
+                  <div className="space-y-0.5 px-2">
+                    {/* "All Pages" link at top */}
+                    <Link
+                      href="/pages"
+                      className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white transition-all rounded-lg text-sm font-semibold mb-2 shadow-lg"
+                    >
+                      <span>View All Pages</span>
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </Link>
+                    
+                    {/* Individual Pages */}
+                    {pages.slice(0, 8).map(page => (
                       <Link
                         key={page.id}
                         href={`/${page.slug}`}
-                        className="block px-4 py-2 text-slate-200 hover:bg-blue-600/50 hover:text-white transition-colors rounded-md text-sm"
+                        className="block px-4 py-2.5 text-slate-200 hover:text-white hover:bg-slate-800 transition-all rounded-lg text-sm"
                       >
                         {page.title}
                       </Link>
                     ))}
                   </div>
                 </div>
-              )}
+              ) : activeDropdown === 'pages' && pages.length === 0 ? (
+                <div className="absolute top-full left-0 mt-4 w-[280px] bg-slate-900 rounded-xl shadow-2xl border-2 border-blue-500 py-3 px-4 z-[100]">
+                  <p className="text-slate-400 text-sm">Loading pages...</p>
+                </div>
+              ) : null}
             </div>
           </nav>
 

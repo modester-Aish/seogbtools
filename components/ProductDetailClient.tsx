@@ -2,10 +2,10 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
-import { Star, ShoppingCart, Check, Minus, Plus, ExternalLink } from 'lucide-react';
+import { Star, ShoppingCart, ExternalLink } from 'lucide-react';
 import { WCProduct } from '@/types/wordpress';
 import ProductCard from './ProductCard';
+import { getProductLogo, getProductBgColor } from '@/lib/product-images';
 
 interface ProductDetailClientProps {
   product: WCProduct;
@@ -14,46 +14,71 @@ interface ProductDetailClientProps {
 
 export default function ProductDetailClient({ product, relatedProducts = [] }: ProductDetailClientProps) {
   const [selectedImage, setSelectedImage] = useState(0);
-  const [quantity, setQuantity] = useState(1);
 
-  const images = product.images && product.images.length > 0 
+  // Priority system for images:
+  // 1. Use WordPress product images if they exist and are valid
+  // 2. Fall back to company logo based on product name
+  const hasRealImages = product.images && 
+                        product.images.length > 0 && 
+                        product.images[0]?.src &&
+                        product.images[0].src.trim() !== '' &&
+                        !product.images[0].src.includes('placeholder') &&
+                        !product.images[0].src.includes('seo-tools.svg') &&
+                        !product.images[0].src.includes('woocommerce-placeholder') &&
+                        (product.images[0].src.startsWith('http') || product.images[0].src.startsWith('/'));
+  
+  const productLogo = getProductLogo(product.name);
+  const images = hasRealImages 
     ? product.images 
-    : [{ id: 0, src: '/placeholder-product.jpg', name: product.name, alt: product.name }];
+    : [{ id: 0, src: productLogo, name: product.name, alt: product.name }];
+  
+  const isCompanyLogo = !hasRealImages;
+  const bgColor = isCompanyLogo ? getProductBgColor(product.name) : 'bg-slate-800';
 
   const regularPrice = parseFloat(product.regular_price) || 0;
   const salePrice = parseFloat(product.sale_price) || 0;
   const currentPrice = product.on_sale && salePrice > 0 ? salePrice : regularPrice;
 
-  // Extract features from description
-  const features = product.short_description
-    ? product.short_description.split('\n').filter(line => line.trim())
-    : [];
-
   return (
     <div className="min-h-screen bg-slate-900 py-8">
       <div className="container mx-auto px-4">
-        {/* Breadcrumb */}
-        <div className="flex items-center space-x-2 text-sm text-slate-400 mb-8">
-          <Link href="/" className="hover:text-primary">Home</Link>
-          <span>/</span>
-          <Link href="/products" className="hover:text-primary">Products</Link>
-          <span>/</span>
-          <span className="text-white">{product.name}</span>
-        </div>
-
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
           {/* Left: Images */}
           <div>
             {/* Main Image */}
-            <div className="relative h-96 lg:h-[500px] bg-slate-800 rounded-xl overflow-hidden mb-4">
-              <Image
-                src={images[selectedImage].src}
-                alt={images[selectedImage].alt || product.name}
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                priority
-              />
+            <div className={`relative h-96 lg:h-[500px] ${bgColor} rounded-xl overflow-hidden mb-4 ${isCompanyLogo ? 'flex items-center justify-center' : ''}`}>
+              {isCompanyLogo ? (
+                // Company logo - smaller, centered
+                <div className="relative w-64 h-64 lg:w-80 lg:h-80">
+                  <Image
+                    src={images[selectedImage].src}
+                    alt={images[selectedImage].alt || product.name}
+                    fill
+                    className="object-contain p-8"
+                    sizes="320px"
+                    priority
+                    unoptimized={images[selectedImage].src.endsWith('.svg')}
+                    onError={(e) => {
+                      console.error('Image load error:', images[selectedImage].src);
+                      e.currentTarget.src = '/tools/seo-tools.svg';
+                    }}
+                  />
+                </div>
+              ) : (
+                // Real product image - full cover
+                <Image
+                  src={images[selectedImage].src}
+                  alt={images[selectedImage].alt || product.name}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  priority
+                  onError={(e) => {
+                    console.error('Image load error:', images[selectedImage].src);
+                    e.currentTarget.src = '/tools/seo-tools.svg';
+                  }}
+                />
+              )}
             </div>
 
             {/* Thumbnail Images */}
@@ -63,17 +88,36 @@ export default function ProductDetailClient({ product, relatedProducts = [] }: P
                   <button
                     key={idx}
                     onClick={() => setSelectedImage(idx)}
-                    className={`relative h-20 bg-slate-800 rounded-lg overflow-hidden border-2 transition-all ${
+                    className={`relative h-20 ${isCompanyLogo ? bgColor : 'bg-slate-800'} rounded-lg overflow-hidden border-2 transition-all ${isCompanyLogo ? 'flex items-center justify-center' : ''} ${
                       selectedImage === idx ? 'border-primary' : 'border-slate-700 hover:border-slate-600'
                     }`}
                   >
-                    <Image
-                      src={image.src}
-                      alt={image.alt || `${product.name} ${idx + 1}`}
-                      fill
-                      className="object-cover"
-                      sizes="80px"
-                    />
+                    {isCompanyLogo ? (
+                      <div className="relative w-12 h-12">
+                        <Image
+                          src={image.src}
+                          alt={image.alt || `${product.name} ${idx + 1}`}
+                          fill
+                          className="object-contain p-2"
+                          sizes="48px"
+                          unoptimized={image.src.endsWith('.svg')}
+                          onError={(e) => {
+                            e.currentTarget.src = '/tools/seo-tools.svg';
+                          }}
+                        />
+                      </div>
+                    ) : (
+                      <Image
+                        src={image.src}
+                        alt={image.alt || `${product.name} ${idx + 1}`}
+                        fill
+                        className="object-cover"
+                        sizes="80px"
+                        onError={(e) => {
+                          e.currentTarget.src = '/tools/seo-tools.svg';
+                        }}
+                      />
+                    )}
                   </button>
                 ))}
               </div>
@@ -139,40 +183,6 @@ export default function ProductDetailClient({ product, relatedProducts = [] }: P
               />
             )}
 
-            {/* Stock Status */}
-            <div className="mb-6">
-              {product.stock_status === 'instock' ? (
-                <div className="flex items-center space-x-2 text-green-500">
-                  <Check size={20} />
-                  <span className="font-semibold">In Stock</span>
-                </div>
-              ) : (
-                <div className="flex items-center space-x-2 text-red-500">
-                  <span className="font-semibold">Out of Stock</span>
-                </div>
-              )}
-            </div>
-
-            {/* Quantity Selector */}
-            <div className="mb-6">
-              <label className="text-white font-semibold mb-2 block">Quantity:</label>
-              <div className="flex items-center space-x-4">
-                <button
-                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  className="bg-slate-700 hover:bg-slate-600 text-white p-2 rounded-lg transition-colors"
-                >
-                  <Minus size={20} />
-                </button>
-                <span className="text-white text-xl font-semibold w-12 text-center">{quantity}</span>
-                <button
-                  onClick={() => setQuantity(quantity + 1)}
-                  className="bg-slate-700 hover:bg-slate-600 text-white p-2 rounded-lg transition-colors"
-                >
-                  <Plus size={20} />
-                </button>
-              </div>
-            </div>
-
             {/* Buy Button */}
             <a
               href="https://members.seotoolsgroupbuy.us/signup"
@@ -183,21 +193,6 @@ export default function ProductDetailClient({ product, relatedProducts = [] }: P
               <ShoppingCart size={24} />
               <span>Buy Now</span>
             </a>
-
-            {/* Features List */}
-            {features.length > 0 && (
-              <div className="bg-slate-800 rounded-xl p-6 border border-slate-700">
-                <h3 className="text-white font-semibold mb-4">Key Features:</h3>
-                <ul className="space-y-2">
-                  {features.slice(0, 5).map((feature, idx) => (
-                    <li key={idx} className="flex items-start space-x-2 text-slate-300">
-                      <Check className="text-primary flex-shrink-0 mt-1" size={18} />
-                      <span dangerouslySetInnerHTML={{ __html: feature }} />
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
           </div>
         </div>
 

@@ -3,6 +3,7 @@ import { WCProduct, WCCategory, WPApiResponse } from '@/types/wordpress';
 const WORDPRESS_BASE_URL = process.env.WORDPRESS_BASE_URL || '';
 const WC_CONSUMER_KEY = process.env.WC_CONSUMER_KEY || '';
 const WC_CONSUMER_SECRET = process.env.WC_CONSUMER_SECRET || '';
+const CACHE_REVALIDATE = 3600; // 1 hour
 
 /**
  * Create WooCommerce API URL with authentication
@@ -10,13 +11,15 @@ const WC_CONSUMER_SECRET = process.env.WC_CONSUMER_SECRET || '';
 function getWooCommerceUrl(endpoint: string, params: Record<string, any> = {}): string {
   const url = new URL(`${WORDPRESS_BASE_URL}/wp-json/wc/v3/${endpoint}`);
   
-  // Add authentication
+  // Add authentication via query parameters (works with Next.js fetch caching)
   url.searchParams.append('consumer_key', WC_CONSUMER_KEY);
   url.searchParams.append('consumer_secret', WC_CONSUMER_SECRET);
   
   // Add additional parameters
   Object.entries(params).forEach(([key, value]) => {
-    url.searchParams.append(key, String(value));
+    if (value !== undefined && value !== null) {
+      url.searchParams.append(key, String(value));
+    }
   });
   
   return url.toString();
@@ -27,6 +30,7 @@ function getWooCommerceUrl(endpoint: string, params: Record<string, any> = {}): 
  */
 export async function fetchAllProductsComplete(): Promise<WCProduct[]> {
   try {
+    console.log('🔄 Fetching all products from WooCommerce...');
     let allProducts: WCProduct[] = [];
     let page = 1;
     let hasMore = true;
@@ -39,24 +43,34 @@ export async function fetchAllProductsComplete(): Promise<WCProduct[]> {
       });
 
       const response = await fetch(url, {
-        next: { revalidate: 3600 },
+        next: { 
+          revalidate: CACHE_REVALIDATE,
+          tags: ['products']
+        },
       });
 
       if (!response.ok) {
+        console.error(`❌ WooCommerce API error: ${response.status} ${response.statusText}`);
         break;
       }
 
       const data = await response.json();
+      
+      if (!Array.isArray(data) || data.length === 0) {
+        break;
+      }
+      
       allProducts = [...allProducts, ...data];
 
-      const totalPages = parseInt(response.headers.get('X-WP-TotalPages') || '1');
+      const totalPages = parseInt(response.headers.get('x-wp-totalpages') || '1');
       hasMore = page < totalPages;
       page++;
     }
 
+    console.log(`✅ Successfully fetched ${allProducts.length} products`);
     return allProducts;
-  } catch (error) {
-    console.error('Error fetching all products:', error);
+  } catch (error: any) {
+    console.error('❌ Error fetching all products:', error.message);
     return [];
   }
 }
@@ -76,7 +90,10 @@ export async function fetchAllProducts(
     });
 
     const response = await fetch(url, {
-      next: { revalidate: 3600 },
+      next: { 
+        revalidate: CACHE_REVALIDATE,
+        tags: ['products']
+      },
     });
 
     if (!response.ok) {
@@ -84,16 +101,18 @@ export async function fetchAllProducts(
     }
 
     const data = await response.json();
-    const total = parseInt(response.headers.get('X-WP-Total') || '0');
-    const totalPages = parseInt(response.headers.get('X-WP-TotalPages') || '1');
+    const total = parseInt(response.headers.get('x-wp-total') || '0');
+    const totalPages = parseInt(response.headers.get('x-wp-totalpages') || '1');
+
+    console.log(`✅ Fetched page ${page} of products (${data.length} items)`);
 
     return {
-      data,
+      data: Array.isArray(data) ? data : [],
       total,
       totalPages,
     };
-  } catch (error) {
-    console.error('Error fetching products:', error);
+  } catch (error: any) {
+    console.error('❌ Error fetching products:', error.message);
     return {
       data: [],
       total: 0,
@@ -113,17 +132,28 @@ export async function fetchProductBySlug(slug: string): Promise<WCProduct | null
     });
 
     const response = await fetch(url, {
-      next: { revalidate: 3600 },
+      next: { 
+        revalidate: CACHE_REVALIDATE,
+        tags: ['products', `product-${slug}`]
+      },
     });
 
     if (!response.ok) {
+      console.log(`ℹ️ Product not found: ${slug}`);
       return null;
     }
 
     const data = await response.json();
-    return data.length > 0 ? data[0] : null;
-  } catch (error) {
-    console.error('Error fetching product by slug:', error);
+    
+    if (!Array.isArray(data) || data.length === 0) {
+      console.log(`ℹ️ Product not found: ${slug}`);
+      return null;
+    }
+
+    console.log(`✅ Fetched product: ${data[0].name}`);
+    return data[0];
+  } catch (error: any) {
+    console.error(`❌ Error fetching product ${slug}:`, error.message);
     return null;
   }
 }
@@ -138,7 +168,10 @@ export async function fetchCategories(): Promise<WCCategory[]> {
     });
 
     const response = await fetch(url, {
-      next: { revalidate: 3600 },
+      next: { 
+        revalidate: CACHE_REVALIDATE,
+        tags: ['categories']
+      },
     });
 
     if (!response.ok) {
@@ -146,9 +179,11 @@ export async function fetchCategories(): Promise<WCCategory[]> {
     }
 
     const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Error fetching categories:', error);
+    console.log(`✅ Fetched ${data.length} product categories`);
+    
+    return Array.isArray(data) ? data : [];
+  } catch (error: any) {
+    console.error('❌ Error fetching categories:', error.message);
     return [];
   }
 }
@@ -170,7 +205,10 @@ export async function fetchProductsByCategory(
     });
 
     const response = await fetch(url, {
-      next: { revalidate: 3600 },
+      next: { 
+        revalidate: CACHE_REVALIDATE,
+        tags: ['products', `category-${categoryId}`]
+      },
     });
 
     if (!response.ok) {
@@ -178,16 +216,18 @@ export async function fetchProductsByCategory(
     }
 
     const data = await response.json();
-    const total = parseInt(response.headers.get('X-WP-Total') || '0');
-    const totalPages = parseInt(response.headers.get('X-WP-TotalPages') || '1');
+    const total = parseInt(response.headers.get('x-wp-total') || '0');
+    const totalPages = parseInt(response.headers.get('x-wp-totalpages') || '1');
+
+    console.log(`✅ Fetched products for category ${categoryId} (${data.length} items)`);
 
     return {
-      data,
+      data: Array.isArray(data) ? data : [],
       total,
       totalPages,
     };
-  } catch (error) {
-    console.error('Error fetching products by category:', error);
+  } catch (error: any) {
+    console.error(`❌ Error fetching products by category ${categoryId}:`, error.message);
     return {
       data: [],
       total: 0,
@@ -195,4 +235,3 @@ export async function fetchProductsByCategory(
     };
   }
 }
-
