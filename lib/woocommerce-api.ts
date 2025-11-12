@@ -43,8 +43,8 @@ export async function fetchAllProductsComplete(): Promise<WCProduct[]> {
       });
 
       const response = await fetch(url, {
-        next: { 
-          revalidate: CACHE_REVALIDATE,
+        cache: 'no-store',
+        next: {
           tags: ['products']
         },
       });
@@ -90,8 +90,8 @@ export async function fetchAllProducts(
     });
 
     const response = await fetch(url, {
-      next: { 
-        revalidate: CACHE_REVALIDATE,
+      cache: 'no-store',
+      next: {
         tags: ['products']
       },
     });
@@ -132,8 +132,8 @@ export async function fetchProductBySlug(slug: string): Promise<WCProduct | null
     });
 
     const response = await fetch(url, {
-      next: { 
-        revalidate: CACHE_REVALIDATE,
+      cache: 'no-store',
+      next: {
         tags: ['products', `product-${slug}`]
       },
     });
@@ -168,8 +168,8 @@ export async function fetchCategories(): Promise<WCCategory[]> {
     });
 
     const response = await fetch(url, {
-      next: { 
-        revalidate: CACHE_REVALIDATE,
+      cache: 'no-store',
+      next: {
         tags: ['categories']
       },
     });
@@ -205,8 +205,8 @@ export async function fetchProductsByCategory(
     });
 
     const response = await fetch(url, {
-      next: { 
-        revalidate: CACHE_REVALIDATE,
+      cache: 'no-store',
+      next: {
         tags: ['products', `category-${categoryId}`]
       },
     });

@@ -17,10 +17,10 @@ export async function fetchAllPosts(
     const response = await fetch(
       `${WP_API_URL}/posts?page=${page}&per_page=${perPage}&_embed`,
       { 
-        next: { 
-          revalidate: CACHE_REVALIDATE,
+        cache: 'no-store',
+        next: {
           tags: ['posts']
-        } 
+        }
       }
     );
 
@@ -59,10 +59,10 @@ export async function fetchPostBySlug(slug: string): Promise<WPPost | null> {
     const response = await fetch(
       `${WP_API_URL}/posts?slug=${slug}&_embed`,
       { 
-        next: { 
-          revalidate: CACHE_REVALIDATE,
+        cache: 'no-store',
+        next: {
           tags: ['posts', `post-${slug}`]
-        } 
+        }
       }
     );
 
@@ -103,7 +103,6 @@ export async function fetchAllPagesComplete(): Promise<WPPage[]> {
         {
           cache: 'no-store',
           next: {
-            revalidate: 0,
             tags: ['pages']
           }
         }
@@ -145,10 +144,10 @@ export async function fetchPageBySlug(slug: string): Promise<WPPage | null> {
     const response = await fetch(
       `${WP_API_URL}/pages?slug=${slug}&_embed`,
       { 
-        next: { 
-          revalidate: CACHE_REVALIDATE,
+        cache: 'no-store',
+        next: {
           tags: ['pages', `page-${slug}`]
-        } 
+        }
       }
     );
 
@@ -183,10 +182,10 @@ export async function fetchPages(
     const response = await fetch(
       `${WP_API_URL}/pages?page=${page}&per_page=${perPage}&_embed`,
       { 
-        next: { 
-          revalidate: CACHE_REVALIDATE,
+        cache: 'no-store',
+        next: {
           tags: ['pages']
-        } 
+        }
       }
     );
 

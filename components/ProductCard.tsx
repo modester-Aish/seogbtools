@@ -35,18 +35,16 @@ export default function ProductCard({ product }: ProductCardProps) {
       {/* Product Image */}
       <Link href={`/${product.slug}`} className={`relative h-48 ${bgColor} overflow-hidden group flex items-center justify-center`}>
         {isCompanyLogo ? (
-          // Company logo - smaller, centered
+          // Company logo - use plain img to avoid Next optimizer
           <div className="relative w-32 h-32">
-            <Image
+            <img
               src={imageUrl}
               alt={product.name}
-              fill
-              className="object-contain group-hover:scale-110 transition-transform duration-300 p-4"
-              sizes="128px"
-              unoptimized={imageUrl.endsWith('.svg')}
-              onError={(e) => {
+              className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110 p-4"
+              loading="lazy"
+              onError={(event) => {
                 console.error('Image load error:', imageUrl);
-                e.currentTarget.src = '/tools/seo-tools.svg';
+                event.currentTarget.src = '/tools/seo-tools.svg';
               }}
             />
           </div>
@@ -58,6 +56,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             fill
             className="object-cover group-hover:scale-110 transition-transform duration-300"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+            unoptimized={!imageUrl.startsWith('/')}
             onError={(e) => {
               console.error('Image load error:', imageUrl);
               e.currentTarget.src = '/tools/seo-tools.svg';

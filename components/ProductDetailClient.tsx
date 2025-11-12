@@ -48,19 +48,16 @@ export default function ProductDetailClient({ product, relatedProducts = [] }: P
             {/* Main Image */}
             <div className={`relative h-96 lg:h-[500px] ${bgColor} rounded-xl overflow-hidden mb-4 ${isCompanyLogo ? 'flex items-center justify-center' : ''}`}>
               {isCompanyLogo ? (
-                // Company logo - smaller, centered
+                // Company logo - use plain img to avoid Next optimizer
                 <div className="relative w-64 h-64 lg:w-80 lg:h-80">
-                  <Image
+                  <img
                     src={images[selectedImage].src}
                     alt={images[selectedImage].alt || product.name}
-                    fill
-                    className="object-contain p-8"
-                    sizes="320px"
-                    priority
-                    unoptimized={images[selectedImage].src.endsWith('.svg')}
-                    onError={(e) => {
+                    className="w-full h-full object-contain p-8"
+                    loading="lazy"
+                    onError={(event) => {
                       console.error('Image load error:', images[selectedImage].src);
-                      e.currentTarget.src = '/tools/seo-tools.svg';
+                      event.currentTarget.src = '/tools/seo-tools.svg';
                     }}
                   />
                 </div>
@@ -73,6 +70,7 @@ export default function ProductDetailClient({ product, relatedProducts = [] }: P
                   className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   priority
+                  unoptimized={!images[selectedImage].src.startsWith('/')}
                   onError={(e) => {
                     console.error('Image load error:', images[selectedImage].src);
                     e.currentTarget.src = '/tools/seo-tools.svg';
@@ -94,15 +92,13 @@ export default function ProductDetailClient({ product, relatedProducts = [] }: P
                   >
                     {isCompanyLogo ? (
                       <div className="relative w-12 h-12">
-                        <Image
+                        <img
                           src={image.src}
                           alt={image.alt || `${product.name} ${idx + 1}`}
-                          fill
-                          className="object-contain p-2"
-                          sizes="48px"
-                          unoptimized={image.src.endsWith('.svg')}
-                          onError={(e) => {
-                            e.currentTarget.src = '/tools/seo-tools.svg';
+                          className="w-full h-full object-contain p-2"
+                          loading="lazy"
+                          onError={(event) => {
+                            event.currentTarget.src = '/tools/seo-tools.svg';
                           }}
                         />
                       </div>
@@ -113,6 +109,7 @@ export default function ProductDetailClient({ product, relatedProducts = [] }: P
                         fill
                         className="object-cover"
                         sizes="80px"
+                        unoptimized={!image.src.startsWith('/')}
                         onError={(e) => {
                           e.currentTarget.src = '/tools/seo-tools.svg';
                         }}
