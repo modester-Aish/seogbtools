@@ -9,49 +9,49 @@ export default function PopularToolsSection() {
     {
       name: 'AHREF$',
       price: '$30.00',
-      image: 'https://logo.clearbit.com/ahrefs.com',
+      image: '/tools/ahrefs-logo.svg',
       bgColor: '#f0f4ff'
     },
     {
       name: 'SEMRU$H',
       price: '$4.99',
-      image: 'https://logo.clearbit.com/semrush.com',
+      image: '/tools/semrush-logo.svg',
       bgColor: '#f0f4ff'
     },
     {
       name: 'Moz Pro',
       price: '$4.99',
-      image: 'https://logo.clearbit.com/moz.com',
+      image: '/tools/moz-logo.svg',
       bgColor: '#f0f4ff'
     },
     {
       name: 'Canva Pro',
       price: '$4.99',
-      image: 'https://logo.clearbit.com/canva.com',
+      image: '/tools/canva-logo.svg',
       bgColor: '#f0f4ff'
     },
     {
       name: 'ChatGPT Plus',
       price: '$4.99',
-      image: 'https://logo.clearbit.com/openai.com',
+      image: '/tools/chatgpt-logo.svg',
       bgColor: '#f0f4ff'
     },
     {
       name: 'RunwayML',
       price: '$4.99',
-      image: 'https://logo.clearbit.com/runwayml.com',
+      image: '/tools/runwayml-logo.svg',
       bgColor: '#f0f4ff'
     },
     {
       name: 'Netflix',
       price: '$4.99',
-      image: 'https://logo.clearbit.com/netflix.com',
+      image: '/tools/netflix-logo.svg',
       bgColor: '#f0f4ff'
     },
     {
       name: 'Claude',
       price: '$4.99',
-      image: 'https://logo.clearbit.com/anthropic.com',
+      image: '/tools/claude-logo.svg',
       bgColor: '#f0f4ff'
     },
     {
