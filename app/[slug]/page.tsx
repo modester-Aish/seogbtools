@@ -6,6 +6,8 @@ import { getCanonicalUrl, getOgImageUrl } from '@/lib/canonical';
 import { cleanWordPressContent, extractPlainText, removeFirstHeading } from '@/lib/content-parser';
 import { cleanPageTitle } from '@/lib/html-utils';
 import ProductDetailClient from '@/components/ProductDetailClient';
+import ToolDetailClient from '@/components/ToolDetailClient';
+import { getToolBySlug } from '@/lib/tools-data';
 import Image from 'next/image';
 import { Calendar, Clock, ArrowLeft, Share2, Facebook, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
@@ -20,7 +22,27 @@ interface PageProps {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = params;
 
-  // Try to fetch as product first
+  // Try to fetch as tool first (highest priority)
+  const tool = getToolBySlug(slug);
+  if (tool) {
+    return {
+      title: `${tool.name} - Premium SEO Tool | SEOGBTools`,
+      description: tool.description.substring(0, 160),
+      keywords: [tool.name, tool.category, 'seo tools', 'group buy'].join(', '),
+      alternates: {
+        canonical: getCanonicalUrl(slug),
+      },
+      openGraph: {
+        title: `${tool.name} - Premium SEO Tool`,
+        description: tool.description.substring(0, 160),
+        url: getCanonicalUrl(slug),
+        type: 'website',
+        images: tool.image ? [{ url: tool.image.startsWith('http') ? tool.image : getCanonicalUrl(tool.image) }] : undefined,
+      },
+    };
+  }
+
+  // Try to fetch as product
   const product = await fetchProductBySlug(slug);
   if (product) {
     const description = extractPlainText(product.short_description || product.description).substring(0, 160);
@@ -103,7 +125,13 @@ export const revalidate = 3600; // Revalidate every hour
 export default async function DynamicPage({ params }: PageProps) {
   const { slug } = params;
 
-  // Try to fetch as product first
+  // Try to fetch as tool first (highest priority)
+  const tool = getToolBySlug(slug);
+  if (tool) {
+    return <ToolDetailClient tool={tool} />;
+  }
+
+  // Try to fetch as product
   const product = await fetchProductBySlug(slug);
   if (product) {
     // Fetch related products (from same category or random)

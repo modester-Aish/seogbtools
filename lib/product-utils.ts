@@ -1,11 +1,13 @@
 import { WCProduct } from '@/types/wordpress';
+import { getBuyNowUrlWithId } from './product-ids';
 
 /**
  * Get Buy Now URL from product
  * Priority:
  * 1. external_url (WooCommerce external product)
  * 2. meta_data custom field 'buy_now_url' or 'custom_buy_url'
- * 3. Default signup URL
+ * 3. meta_data product_id field
+ * 4. Default signup URL
  */
 export function getBuyNowUrl(product: WCProduct): string {
   const defaultUrl = 'https://members.seotoolsgroupbuy.us/signup';
@@ -31,6 +33,19 @@ export function getBuyNowUrl(product: WCProduct): string {
     );
     if (customBuyUrl && customBuyUrl.value && typeof customBuyUrl.value === 'string' && customBuyUrl.value.trim() !== '') {
       return customBuyUrl.value;
+    }
+    
+    // Try 'product_id' from meta_data
+    const productIdMeta = product.meta_data.find(
+      (meta) => meta.key === 'product_id' || meta.key === '_product_id' || meta.key === 'cart_product_id'
+    );
+    if (productIdMeta && productIdMeta.value) {
+      const productId = typeof productIdMeta.value === 'number' 
+        ? productIdMeta.value 
+        : parseInt(String(productIdMeta.value));
+      if (!isNaN(productId) && productId > 0) {
+        return getBuyNowUrlWithId(productId);
+      }
     }
   }
   
