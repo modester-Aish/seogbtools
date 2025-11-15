@@ -178,7 +178,7 @@ export default function ToolDetailClient({ tool }: ToolDetailClientProps) {
             </p>
             {tool.features && tool.features.length > 0 && (
               <div>
-                <h3 className="text-xl font-semibold text-white mb-4">What's Included:</h3>
+                <h3 className="text-xl font-semibold text-white mb-4">What&apos;s Included:</h3>
                 <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {tool.features.map((feature, idx) => (
                     <li key={idx} className="flex items-start space-x-2 text-slate-300">
