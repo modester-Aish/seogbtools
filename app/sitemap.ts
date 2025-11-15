@@ -6,6 +6,10 @@ import { getCanonicalUrl } from '@/lib/canonical';
 const WORDPRESS_BASE_URL = process.env.WORDPRESS_BASE_URL || '';
 const WP_API_URL = `${WORDPRESS_BASE_URL}/wp-json/wp/v2`;
 
+// Force dynamic generation - sitemap will update on every request
+// This means when you add new content in WordPress, sitemap will update immediately
+export const dynamic = 'force-dynamic';
+
 /**
  * Fetch all WordPress posts (handles pagination automatically)
  */
