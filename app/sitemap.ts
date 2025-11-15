@@ -52,30 +52,31 @@ async function fetchAllPostsComplete() {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  // Frontend site URL - seogbtools.com (NOT WordPress backend)
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://seogbtools.com';
   
-  // Static routes
+  // Static routes - All URLs are frontend URLs (seogbtools.com)
   const staticRoutes: MetadataRoute.Sitemap = [
     {
-      url: baseUrl,
+      url: baseUrl, // https://seogbtools.com
       lastModified: new Date(),
       changeFrequency: 'daily',
       priority: 1.0,
     },
     {
-      url: getCanonicalUrl('products'),
+      url: getCanonicalUrl('products'), // https://seogbtools.com/products
       lastModified: new Date(),
       changeFrequency: 'daily',
       priority: 0.9,
     },
     {
-      url: getCanonicalUrl('blog'),
+      url: getCanonicalUrl('blog'), // https://seogbtools.com/blog
       lastModified: new Date(),
       changeFrequency: 'daily',
       priority: 0.8,
     },
     {
-      url: getCanonicalUrl('pages'),
+      url: getCanonicalUrl('pages'), // https://seogbtools.com/pages
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.7,
@@ -102,30 +103,31 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error('❌ Error fetching sitemap data:', error.message);
   }
 
-  // Product routes
+  // Product routes - All frontend URLs (seogbtools.com/product-slug)
   const productRoutes: MetadataRoute.Sitemap = products.map((product) => ({
-    url: getCanonicalUrl(product.slug),
+    url: getCanonicalUrl(product.slug), // https://seogbtools.com/product-slug
     lastModified: product.date_modified ? new Date(product.date_modified) : new Date(),
     changeFrequency: 'weekly' as const,
     priority: 0.8,
   }));
 
-  // Blog post routes
+  // Blog post routes - All frontend URLs (seogbtools.com/post-slug)
   const postRoutes: MetadataRoute.Sitemap = posts.map((post) => ({
-    url: getCanonicalUrl(post.slug),
+    url: getCanonicalUrl(post.slug), // https://seogbtools.com/post-slug
     lastModified: post.modified ? new Date(post.modified) : new Date(post.date),
     changeFrequency: 'weekly' as const,
     priority: 0.7,
   }));
 
-  // Page routes
+  // Page routes - All frontend URLs (seogbtools.com/page-slug)
   const pageRoutes: MetadataRoute.Sitemap = pages.map((page) => ({
-    url: getCanonicalUrl(page.slug),
+    url: getCanonicalUrl(page.slug), // https://seogbtools.com/page-slug
     lastModified: page.modified ? new Date(page.modified) : new Date(page.date),
     changeFrequency: 'monthly' as const,
     priority: 0.6,
   }));
 
-  // Combine all routes
+  // Combine all routes into ONE XML file
+  // Next.js automatically generates /sitemap.xml with all these URLs
   return [...staticRoutes, ...productRoutes, ...postRoutes, ...pageRoutes];
 }
