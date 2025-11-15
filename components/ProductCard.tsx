@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { Star, ShoppingCart } from 'lucide-react';
 import { WCProduct } from '@/types/wordpress';
 import { getProductLogo, getProductBgColor } from '@/lib/product-images';
+import { getBuyNowUrl, getBuyButtonText } from '@/lib/product-utils';
 
 interface ProductCardProps {
   product: WCProduct;
@@ -141,15 +142,15 @@ export default function ProductCard({ product }: ProductCardProps) {
           </div>
         </div>
 
-        {/* Buy Button */}
+        {/* Buy Button - URL from WordPress/WooCommerce */}
         <a
-          href="https://members.seotoolsgroupbuy.us/signup"
+          href={getBuyNowUrl(product)}
           target="_blank"
           rel="noopener noreferrer"
           className="mt-4 w-full bg-primary hover:bg-primary/90 text-white py-2 px-4 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center space-x-2"
         >
           <ShoppingCart size={18} />
-          <span>Buy Now</span>
+          <span>{getBuyButtonText(product)}</span>
         </a>
       </div>
     </div>

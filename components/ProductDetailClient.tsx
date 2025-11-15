@@ -6,6 +6,7 @@ import { Star, ShoppingCart, ExternalLink } from 'lucide-react';
 import { WCProduct } from '@/types/wordpress';
 import ProductCard from './ProductCard';
 import { getProductLogo, getProductBgColor } from '@/lib/product-images';
+import { getBuyNowUrl, getBuyButtonText } from '@/lib/product-utils';
 
 interface ProductDetailClientProps {
   product: WCProduct;
@@ -180,15 +181,15 @@ export default function ProductDetailClient({ product, relatedProducts = [] }: P
               />
             )}
 
-            {/* Buy Button */}
+            {/* Buy Button - URL from WordPress/WooCommerce */}
             <a
-              href="https://members.seotoolsgroupbuy.us/signup"
+              href={getBuyNowUrl(product)}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full bg-primary hover:bg-primary/90 text-white py-4 px-6 rounded-lg font-semibold text-lg transition-all duration-300 flex items-center justify-center space-x-2 mb-4 shadow-lg shadow-primary/50"
             >
               <ShoppingCart size={24} />
-              <span>Buy Now</span>
+              <span>{getBuyButtonText(product)}</span>
             </a>
           </div>
         </div>
