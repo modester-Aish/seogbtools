@@ -3,9 +3,6 @@
 import { useState, useEffect } from 'react';
 
 export default function ModernHero() {
-  // State for card positions
-  const [toolOrder, setToolOrder] = useState<number[]>([]);
-  
   // Tools with logos AND shapes - mirroring the first 16 cards from PopularToolsSection
   const tools = [
     { name: 'Ahrefs', image: '/tools/ahrefs-logo.svg', shape: 'rounded-3xl' },
@@ -26,13 +23,11 @@ export default function ModernHero() {
     { name: 'Hootsuite', image: 'https://img.icons8.com/color/96/twitter--v1.png', shape: 'rounded-tl-3xl rounded-bl-3xl' },
   ];
 
-  // Initialize and shuffle card positions every 1.5 seconds
-  useEffect(() => {
-    // Initial order
-    const initialOrder = Array.from({ length: 16 }, (_, i) => i);
-    setToolOrder(initialOrder);
+  // Initialize toolOrder with initial order immediately
+  const [toolOrder, setToolOrder] = useState<number[]>(() => Array.from({ length: 16 }, (_, i) => i));
 
-    // Shuffle positions every 0.8 seconds (very fast)
+  // Shuffle card positions every 0.8 seconds
+  useEffect(() => {
     const interval = setInterval(() => {
       setToolOrder(prevOrder => {
         const newOrder = [...prevOrder];
@@ -156,12 +151,13 @@ export default function ModernHero() {
           {/* Right Side - Tool Cards Grid */}
           <div className="relative hidden lg:block">
             <div className="grid grid-cols-4 gap-6">
-              {toolOrder.length > 0 && toolOrder.map((toolIdx, idx) => {
+              {toolOrder.map((toolIdx, idx) => {
                 const tool = tools[toolIdx];
+                if (!tool) return null;
                 
                 return (
                   <div
-                    key={`tool-${toolIdx}`}
+                    key={`tool-${toolIdx}-${idx}`}
                     className={`bg-white ${tool.shape} p-4 shadow-md hover:shadow-2xl hover:shadow-purple-500/40 transition-all duration-500 ease-in-out hover:scale-110 hover:-translate-y-2 hover:rotate-3 cursor-pointer border-2 border-blue-400 hover:border-purple-500 group relative`}
                   >
                     
@@ -174,7 +170,7 @@ export default function ModernHero() {
                           loading="lazy"
                           className="w-12 h-12 object-contain group-hover:rotate-[-6deg] transition-transform duration-500"
                           onError={(e) => {
-                            e.currentTarget.src = 'https://via.placeholder.com/48?text=' + tool.name.charAt(0);
+                            e.currentTarget.src = '/tools/seo-tools.svg';
                           }}
                         />
                       </div>
