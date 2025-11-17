@@ -229,6 +229,35 @@ export function normalizeProductName(name: string): string {
 }
 
 /**
+ * Get product ID from product slug
+ * First tries direct slug match, then removes common suffixes and tries again
+ */
+export function getProductIdBySlug(slug: string): number | undefined {
+  if (!slug) return undefined;
+  
+  const normalized = normalizeProductName(slug);
+  
+  // 1. Direct slug match
+  if (productIds[normalized]) {
+    return productIds[normalized];
+  }
+  
+  // 2. Remove common suffixes and try again
+  const suffixes = ['-group-buy', 'group-buy', '-groupbuy', 'groupbuy', '-buy', 'buy'];
+  for (const suffix of suffixes) {
+    if (normalized.endsWith(suffix)) {
+      const withoutSuffix = normalized.slice(0, -suffix.length).trim();
+      if (productIds[withoutSuffix]) {
+        return productIds[withoutSuffix];
+      }
+    }
+  }
+  
+  // 3. Try fuzzy matching with product name function
+  return getProductId(normalized);
+}
+
+/**
  * Get product ID from product name
  * Uses advanced fuzzy matching to find product ID from Google Sheet
  * Priority: Direct match > Partial match > Word-by-word match > Without common words > Similarity match

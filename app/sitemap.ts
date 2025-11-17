@@ -2,6 +2,7 @@ import { MetadataRoute } from 'next';
 import { fetchAllProductsComplete } from '@/lib/woocommerce-api';
 import { fetchAllPagesComplete } from '@/lib/wordpress-api';
 import { getCanonicalUrl } from '@/lib/canonical';
+import { getAllTools } from '@/lib/tools-data';
 
 const WORDPRESS_BASE_URL = process.env.WORDPRESS_BASE_URL || '';
 const WP_API_URL = `${WORDPRESS_BASE_URL}/wp-json/wp/v2`;
@@ -83,6 +84,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
+  // Get static tools data
+  const tools = getAllTools();
+
   // Fetch dynamic content
   let products: any[] = [];
   let posts: any[] = [];
@@ -98,10 +102,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       fetchAllPagesComplete(),
     ]);
 
-    console.log(`✅ Sitemap data: ${products.length} products, ${posts.length} posts, ${pages.length} pages`);
+    console.log(`✅ Sitemap data: ${tools.length} tools, ${products.length} products, ${posts.length} posts, ${pages.length} pages`);
   } catch (error: any) {
     console.error('❌ Error fetching sitemap data:', error.message);
   }
+
+  // Tool routes - All frontend URLs (seogbtools.com/tool-slug)
+  const toolRoutes: MetadataRoute.Sitemap = tools.map((tool) => ({
+    url: getCanonicalUrl(tool.slug), // https://seogbtools.com/tool-slug
+    lastModified: new Date(), // Static tools, so use current date
+    changeFrequency: 'monthly' as const,
+    priority: 0.85, // Higher priority than posts/pages, slightly lower than products
+  }));
 
   // Product routes - All frontend URLs (seogbtools.com/product-slug)
   const productRoutes: MetadataRoute.Sitemap = products.map((product) => ({
@@ -129,5 +141,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Combine all routes into ONE XML file
   // Next.js automatically generates /sitemap.xml with all these URLs
-  return [...staticRoutes, ...productRoutes, ...postRoutes, ...pageRoutes];
+  return [...staticRoutes, ...toolRoutes, ...productRoutes, ...postRoutes, ...pageRoutes];
 }

@@ -1,5 +1,5 @@
 import { WCProduct } from '@/types/wordpress';
-import { getBuyNowUrlWithId } from './product-ids';
+import { getBuyNowUrlWithId, getProductIdBySlug, getProductId } from './product-ids';
 
 /**
  * Get Buy Now URL from product
@@ -7,7 +7,9 @@ import { getBuyNowUrlWithId } from './product-ids';
  * 1. external_url (WooCommerce external product)
  * 2. meta_data custom field 'buy_now_url' or 'custom_buy_url'
  * 3. meta_data product_id field
- * 4. Default signup URL
+ * 4. Slug matching with Google Sheet product IDs
+ * 5. Name matching with Google Sheet product IDs
+ * 6. Default signup URL
  */
 export function getBuyNowUrl(product: WCProduct): string {
   const defaultUrl = 'https://members.seotoolsgroupbuy.us/signup';
@@ -49,7 +51,23 @@ export function getBuyNowUrl(product: WCProduct): string {
     }
   }
   
-  // 3. Return default URL
+  // 3. Try slug matching with Google Sheet product IDs
+  if (product.slug) {
+    const mappedProductId = getProductIdBySlug(product.slug);
+    if (mappedProductId) {
+      return getBuyNowUrlWithId(mappedProductId);
+    }
+  }
+  
+  // 4. Try name matching with Google Sheet product IDs
+  if (product.name) {
+    const mappedProductId = getProductId(product.name);
+    if (mappedProductId) {
+      return getBuyNowUrlWithId(mappedProductId);
+    }
+  }
+  
+  // 5. Return default URL
   return defaultUrl;
 }
 
