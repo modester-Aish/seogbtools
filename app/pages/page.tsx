@@ -6,16 +6,22 @@ import { getCanonicalUrl } from '@/lib/canonical';
 import { cleanWordPressContent, extractPlainText } from '@/lib/content-parser';
 
 export const metadata: Metadata = {
-  title: 'All Pages - Complete Site Directory',
-  description: 'Browse all pages on SEOGBTools including pricing plans, tool information, guides, and more.',
-  keywords: 'site pages, pricing plans, seo tools info, guides',
+  title: 'All Pages - Complete Site Directory | SEOGBTools',
+  description: 'Browse all pages on SEOGBTools including pricing plans, tool information, guides, and more. Find everything you need about our SEO tools group buy service.',
+  keywords: 'site pages, pricing plans, seo tools info, guides, seo tools directory',
   alternates: {
     canonical: getCanonicalUrl('pages'),
   },
   openGraph: {
-    title: 'All Pages - Complete Site Directory',
-    description: 'Browse all pages on SEOGBTools',
+    title: 'All Pages - Complete Site Directory | SEOGBTools',
+    description: 'Browse all pages on SEOGBTools including pricing plans, tool information, guides, and more.',
     url: getCanonicalUrl('pages'),
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'All Pages - Complete Site Directory | SEOGBTools',
+    description: 'Browse all pages on SEOGBTools',
   },
 };
 

@@ -20,6 +20,31 @@ const nextConfig = {
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
+  async redirects() {
+    return [
+      // Redirect specific broken URLs
+      {
+        source: '/best-seo-tools',
+        destination: '/products',
+        permanent: true,
+      },
+      {
+        source: '/best-seo-tools/',
+        destination: '/products',
+        permanent: true,
+      },
+      {
+        source: '/privacy-policy',
+        destination: '/pages',
+        permanent: true,
+      },
+      {
+        source: '/privacy-policy/',
+        destination: '/pages',
+        permanent: true,
+      },
+    ]
+  },
   async headers() {
     return [
       {

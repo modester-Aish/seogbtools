@@ -1,12 +1,34 @@
 import { decodeHtmlEntities } from './html-utils';
 
 /**
+ * Replace app.seogbtools.com URLs with seogbtools.com URLs
+ */
+export function replaceAppDomainUrls(content: string): string {
+  if (!content) return '';
+
+  let replaced = content;
+
+  // Replace app.seogbtools.com with seogbtools.com in all URLs
+  replaced = replaced.replace(/https?:\/\/app\.seogbtools\.com/g, 'https://seogbtools.com');
+  
+  // Replace specific broken URLs
+  replaced = replaced.replace(/https:\/\/seogbtools\.com\/\?page_id=11/g, 'https://seogbtools.com');
+  replaced = replaced.replace(/https:\/\/seogbtools\.com\/best-seo-tools\/?/g, 'https://seogbtools.com/products');
+  replaced = replaced.replace(/https:\/\/seogbtools\.com\/cdn-cgi\/l\/email-protection/g, '#');
+  
+  return replaced;
+}
+
+/**
  * Clean WordPress content from shortcodes and unwanted HTML
  */
 export function cleanWordPressContent(content: string): string {
   if (!content) return '';
 
   let cleaned = content;
+
+  // First, replace app.seogbtools.com URLs with seogbtools.com
+  cleaned = replaceAppDomainUrls(cleaned);
 
   // Remove all shortcodes like [shortcode] or [shortcode attr="value"]
   // This catches nested shortcodes and complex patterns

@@ -6,16 +6,22 @@ import { getCanonicalUrl } from '@/lib/canonical';
 import { cleanWordPressContent, extractPlainText } from '@/lib/content-parser';
 
 export const metadata: Metadata = {
-  title: 'SEO Blog - Tips, Guides & Latest Updates',
+  title: 'SEO Blog - Tips, Guides & Latest Updates | SEOGBTools',
   description: 'Read our latest blog posts about SEO strategies, tool tutorials, digital marketing tips, and industry updates. Learn how to improve your search rankings.',
   keywords: 'seo blog, seo tips, digital marketing, seo guides, search engine optimization',
   alternates: {
     canonical: getCanonicalUrl('blog'),
   },
   openGraph: {
-    title: 'SEO Blog - Tips, Guides & Latest Updates',
-    description: 'Latest SEO tips and digital marketing insights',
+    title: 'SEO Blog - Tips, Guides & Latest Updates | SEOGBTools',
+    description: 'Latest SEO tips and digital marketing insights. Learn SEO strategies, tool tutorials, and industry updates.',
     url: getCanonicalUrl('blog'),
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'SEO Blog - Tips, Guides & Latest Updates | SEOGBTools',
+    description: 'Latest SEO tips and digital marketing insights',
   },
 };
 

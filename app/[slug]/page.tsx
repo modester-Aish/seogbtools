@@ -33,11 +33,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         canonical: getCanonicalUrl(slug),
       },
       openGraph: {
-        title: `${tool.name} - Premium SEO Tool`,
+        title: `${tool.name} - Premium SEO Tool | SEOGBTools`,
         description: tool.description.substring(0, 160),
         url: getCanonicalUrl(slug),
         type: 'website',
         images: tool.image ? [{ url: tool.image.startsWith('http') ? tool.image : getCanonicalUrl(tool.image) }] : undefined,
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: `${tool.name} - Premium SEO Tool | SEOGBTools`,
+        description: tool.description.substring(0, 160),
+        images: tool.image ? [tool.image.startsWith('http') ? tool.image : getCanonicalUrl(tool.image)] : undefined,
       },
     };
   }
@@ -49,18 +55,24 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     const imageUrl = product.images?.[0]?.src;
 
     return {
-      title: product.name,
+      title: `${product.name} | SEOGBTools`,
       description,
       keywords: [product.name, 'group buy', 'seo tools', ...product.categories.map(cat => cat.name)].join(', '),
       alternates: {
         canonical: getCanonicalUrl(slug),
       },
       openGraph: {
-        title: product.name,
+        title: `${product.name} | SEOGBTools`,
         description,
         url: getCanonicalUrl(slug),
         type: 'website',
         images: imageUrl ? [{ url: imageUrl }] : undefined,
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: `${product.name} | SEOGBTools`,
+        description,
+        images: imageUrl ? [imageUrl] : undefined,
       },
     };
   }
@@ -72,19 +84,25 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     const imageUrl = post._embedded?.['wp:featuredmedia']?.[0]?.source_url;
 
     return {
-      title: post.title.rendered,
+      title: `${post.title.rendered} | SEOGBTools`,
       description,
       keywords: 'seo blog, digital marketing, seo tips',
       alternates: {
         canonical: getCanonicalUrl(slug),
       },
       openGraph: {
-        title: post.title.rendered,
+        title: `${post.title.rendered} | SEOGBTools`,
         description,
         url: getCanonicalUrl(slug),
         type: 'article',
         images: imageUrl ? [{ url: imageUrl }] : undefined,
         publishedTime: post.date,
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: `${post.title.rendered} | SEOGBTools`,
+        description,
+        images: imageUrl ? [imageUrl] : undefined,
       },
     };
   }
@@ -98,17 +116,24 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     const imageUrl = page._embedded?.['wp:featuredmedia']?.[0]?.source_url;
 
     return {
-      title: page.title.rendered,
+      title: `${page.title.rendered} | SEOGBTools`,
       description,
       keywords: 'seo tools, group buy, pricing plans',
       alternates: {
         canonical: getCanonicalUrl(slug),
       },
       openGraph: {
-        title: page.title.rendered,
+        title: `${page.title.rendered} | SEOGBTools`,
         description,
         url: getCanonicalUrl(slug),
+        type: 'website',
         images: imageUrl ? [{ url: imageUrl }] : undefined,
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: `${page.title.rendered} | SEOGBTools`,
+        description,
+        images: imageUrl ? [imageUrl] : undefined,
       },
     };
   }
@@ -117,6 +142,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: 'Page Not Found',
     description: 'The page you are looking for does not exist.',
+    alternates: {
+      canonical: getCanonicalUrl(),
+    },
   };
 }
 
