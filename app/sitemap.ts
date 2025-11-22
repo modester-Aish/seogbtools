@@ -53,13 +53,11 @@ async function fetchAllPostsComplete() {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  // Frontend site URL - seogbtools.com (NOT WordPress backend)
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://seogbtools.com';
-  
   // Static routes - All URLs are frontend URLs (seogbtools.com)
+  // Using getCanonicalUrl() for all URLs to ensure consistency
   const staticRoutes: MetadataRoute.Sitemap = [
     {
-      url: baseUrl, // https://seogbtools.com
+      url: getCanonicalUrl(), // https://seogbtools.com
       lastModified: new Date(),
       changeFrequency: 'daily',
       priority: 1.0,
